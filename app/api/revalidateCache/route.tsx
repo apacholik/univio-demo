@@ -17,7 +17,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ "status": "success" })
-    })
+    });
   } catch (error) {
     return NextResponse.json({
       status: 500,
