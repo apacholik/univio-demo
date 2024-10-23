@@ -10,6 +10,14 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   try {
     revalidateTag('datocms');
+
+    await fetch('https://webhooks.datocms.com/4VJw0I4dU8/deploy-results', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ "status": "success" })
+    })
   } catch (error) {
     return NextResponse.json({
       status: 500,
