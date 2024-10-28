@@ -11,6 +11,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     revalidateTag('datocms');
 
+    await new Promise((ok) => {
+      setTimeout(() => {
+        ok(undefined)
+      }, 500)
+    })
+
     await fetch('https://webhooks.datocms.com/4VJw0I4dU8/deploy-results', {
       method: 'POST',
       headers: {
