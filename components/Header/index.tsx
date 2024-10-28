@@ -33,6 +33,7 @@ const Header = ({ globalPageProps, data }: Props) => {
         id: '1',
         title: dropdownItem.title || 'Other Items',
         newTab: false,
+        path: dropdownItem.optionalPage?.slug && `/${dropdownItem.optionalPage?.slug}`,
         submenu: dropdownItem.items.map((item) => {
           return {
             id: item.id,
@@ -158,7 +159,6 @@ const Header = ({ globalPageProps, data }: Props) => {
                   <ul className="block items-center lg:flex lg:space-x-12">
                     {menuData.map((menuItem, index) => (
                       <li key={menuItem.id} className="group relative">
-                        {menuItem.path ? (
                           <Link
                             href={buildUrl(globalPageProps, menuItem.path)}
                             className={
@@ -166,15 +166,9 @@ const Header = ({ globalPageProps, data }: Props) => {
                             }
                           >
                             {menuItem.title}
-                          </Link>
-                        ) : (
-                          <>
-                            <a
-                              onClick={() => handleSubmenu(index)}
-                              className="flex cursor-pointer items-center justify-between py-2 text-base text-dark group-hover:opacity-70 dark:text-white lg:mr-0 lg:inline-flex lg:px-0 lg:py-6"
-                            >
-                              {menuItem.title}
-                              <span className="pl-3">
+
+                            {menuItem.submenu && (
+                              <span className="pl-3 pt-1.5">
                                 <svg width="15" height="14" viewBox="0 0 15 14">
                                   <path
                                     d="M7.81602 9.97495C7.68477 9.97495 7.57539 9.9312 7.46602 9.8437L2.43477 4.89995C2.23789 4.70308 2.23789 4.39683 2.43477 4.19995C2.63164 4.00308 2.93789 4.00308 3.13477 4.19995L7.81602 8.77183L12.4973 4.1562C12.6941 3.95933 13.0004 3.95933 13.1973 4.1562C13.3941 4.35308 13.3941 4.65933 13.1973 4.8562L8.16601 9.79995C8.05664 9.90933 7.94727 9.97495 7.81602 9.97495Z"
@@ -182,11 +176,11 @@ const Header = ({ globalPageProps, data }: Props) => {
                                   />
                                 </svg>
                               </span>
-                            </a>
+                            )}
+                          </Link>
+                          {menuItem.submenu && (
                             <div
-                              className={`submenu relative left-0 top-full rounded-md bg-white transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${
-                                openIndex === index ? 'block' : 'hidden'
-                              }`}
+                              className={`submenu relative left-0 top-full rounded-md bg-white transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full`}
                             >
                               {menuItem.submenu?.map((submenuItem) => (
                                 <Link
@@ -201,8 +195,7 @@ const Header = ({ globalPageProps, data }: Props) => {
                                 </Link>
                               ))}
                             </div>
-                          </>
-                        )}
+                          )}
                       </li>
                     ))}
                   </ul>
