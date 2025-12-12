@@ -12,13 +12,13 @@ type Params = GlobalPageProps & {
 };
 
 export async function generateMetadata() {
-  const { isEnabled: isDraft } = draftMode();
+  const { isEnabled: isDraft } = await draftMode();
   const data = await queryDatoCMS(LayoutDocument, {}, isDraft);
   return toNextMetadata(data._site.faviconMetaTags);
 }
 
 export default async function RootLayout({ children, ...pageProps }: Params) {
-  const { isEnabled: isDraft } = draftMode();
+  const { isEnabled: isDraft } = await draftMode();
   const data = await queryDatoCMS(LayoutDocument, {}, isDraft);
 
   return (

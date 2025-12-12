@@ -9,9 +9,9 @@ import type { NextRequest } from 'next/server';
 const websiteBaseUrl = (
   process.env.VERCEL_BRANCH_URL
     ? // Vercel auto-populates this environment variable
-      `https://${process.env.VERCEL_BRANCH_URL}`
+    `https://${process.env.VERCEL_BRANCH_URL}`
     : // Netlify auto-populates this environment variable
-      process.env.URL
+    process.env.URL
 ) as string;
 
 const findSlugAndPermalink = async (
@@ -94,7 +94,9 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  draftMode().enable();
+  const draft = await draftMode();
+
+  draft.enable();
 
   const { body } = await got(new URL(permalink, websiteBaseUrl).toString(), {
     headers: {
@@ -102,7 +104,7 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  draftMode().disable();
+  draft.disable();
 
   const { document } = new JSDOM(body).window;
   const contentEl = document.querySelector('body');

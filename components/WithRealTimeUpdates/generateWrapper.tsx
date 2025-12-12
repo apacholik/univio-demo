@@ -22,10 +22,17 @@ export function generateWrapper<
 }) {
   return async function Page(unsanitizedPageProps: PageProps) {
     const fallbackLocale = await getFallbackLocale();
-    const { isEnabled: isDraft } = draftMode();
+    const { isEnabled: isDraft } = await draftMode();
 
-    const { searchParams, ...pagePropsWithoutSearchParams } =
+    const { params } =
       unsanitizedPageProps as PageProps & { searchParams: unknown };
+
+    const paramsSync = await params;
+
+    const pagePropsWithoutSearchParams = {
+      ...unsanitizedPageProps,
+      params: paramsSync,
+    }
 
     const pageProps = pagePropsWithoutSearchParams as unknown as PageProps;
 

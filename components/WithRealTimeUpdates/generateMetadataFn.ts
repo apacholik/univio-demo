@@ -26,7 +26,7 @@ export function generateMetadataFn<
     pageProps: PageProps,
   ): Promise<Metadata> {
     const fallbackLocale = await getFallbackLocale();
-    const { isEnabled: isDraft } = draftMode();
+    const { isEnabled: isDraft } = await draftMode();
 
     const variables =
       options.buildVariables?.({
