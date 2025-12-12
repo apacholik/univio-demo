@@ -34,7 +34,7 @@ function buildUrl(locale: SiteLocale, path: string) {
   return buildUrlForPage(simulatedPageProps, path);
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const locales = await getAvailableLocales();

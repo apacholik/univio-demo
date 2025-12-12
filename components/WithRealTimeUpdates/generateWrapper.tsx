@@ -10,6 +10,10 @@ import type {
   RealtimeUpdatesPage,
 } from './types';
 
+type Props = {
+  params: Promise<{ slug: string }>
+}
+
 export function generateWrapper<
   PageProps extends GlobalPageProps,
   TResult = unknown,
@@ -20,12 +24,11 @@ export function generateWrapper<
   contentComponent: ContentPage<PageProps, TResult>;
   realtimeComponent: RealtimeUpdatesPage<PageProps, TResult, TVariables>;
 }) {
-  return async function Page(unsanitizedPageProps: PageProps) {
+  return async function Page(unsanitizedPageProps: Props) {
     const fallbackLocale = await getFallbackLocale();
     const { isEnabled: isDraft } = await draftMode();
 
-    const { params } =
-      unsanitizedPageProps as PageProps & { searchParams: unknown };
+    const { params } = unsanitizedPageProps;
 
     const paramsSync = await params;
 
